@@ -10,10 +10,11 @@ import java.text.SimpleDateFormat;
 public class Main {
 
 	public static void main(String[] args) {
+		String str1="select season,winner,id from ipl.csv where season > 2014 and city = 'Bangalore'";
 		 QueryExtract rd= new QueryExtract();
 		  rd.getToken();
-		  rd.getFile();
-		  String[] field=rd.getFileds();
+		  System.out.println("File nameL: "+rd.getFile(str1));
+		  String[] field=rd.getFields(str1);
 		  rd.getBase();
 		  rd.getLast();
 		  rd.getConditions();

@@ -32,7 +32,7 @@ public class QueryExtract {
 		//return s;
 	  }
 //Extracting file name	 
-	  void getFile()
+	  ArrayList<String> getFile(String str)
 	  {
 		  StringTokenizer st= new StringTokenizer(str1);
 		  while(st.hasMoreTokens())
@@ -44,10 +44,11 @@ public class QueryExtract {
 	        	 list1.add(s1);
 	          }       	         
 	        }
-		 System.out.println("File Name: "+list1);
+		 //System.out.println("File Name: "+list1);
+		  return (list1);
 	  }
 //extracting fields	  
-	  String[] getFileds()
+	  String[] getFields(String str)
 	  {
           int index=str1.indexOf("from");
           String substr=str1.substring(0,index);
