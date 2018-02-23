@@ -4,35 +4,30 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class QueryExtract {
-//initializing variables and array list 	
+	
 	 String str1="select season,winner,id from ipl.csv where season > 2014 and city = 'Bangalore'";
-	 String str2="select * from ipl.csv where season > 2016 and city= 'Bangalore' order by win_by_runs ";
-	 String str3="select avg(win_by_wickets) , min(win_by_runs) from ipl.csv ";
-	 String s1=" ";
-	 String s2="where";
-	 String lastpart=" ";
-	 int len=s2.length()+1;
-	 ArrayList<String> list1= new ArrayList<String>();
-	 ArrayList<String> list2= new ArrayList<String>();
-	 ArrayList<String> list3= new ArrayList<String>();
-	 ArrayList<String> list4= new ArrayList<String>();	
-	 String opt[]= {"and","or","not","xor"};
-	 int index=str1.indexOf("where");
-//creating tokens
-	  void getToken(){ 
-		 //String s[]=null;
-		 int i=0;
+	  String str2="select * from ipl.csv where season > 2016 and city= 'Bangalore' order by win_by_runs ";
+	  String str3="select avg(win_by_wickets) , min(win_by_runs) from ipl.csv ";
+	  String s1=" ";
+	  String s2="where";
+	  String lastpart=" ";
+	  int len=s2.length()+1;
+	  ArrayList<String> list1= new ArrayList<String>();
+	  ArrayList<String> list2= new ArrayList<String>();
+	  ArrayList<String> list3= new ArrayList<String>();
+	  ArrayList<String> list4= new ArrayList<String>();	
+	  String opt[]= {"and","or","not","xor"};
+	  int index=str1.indexOf("where");
+	  void getToken(){
+		  
 		  StringTokenizer st= new StringTokenizer(str1);
 		  while(st.hasMoreTokens())
 		    {
 			  s1=st.nextToken();
-			//  s[i++]=s1;
 	          System.out.println("Tokenized: "+s1);
 		    }
-		//return s;
 	  }
-//Extracting file name	 
-	  ArrayList<String> getFile(String str)
+	  ArrayList getFile(String str1)
 	  {
 		  StringTokenizer st= new StringTokenizer(str1);
 		  while(st.hasMoreTokens())
@@ -45,42 +40,44 @@ public class QueryExtract {
 	          }       	         
 	        }
 		 //System.out.println("File Name: "+list1);
-		  return (list1);
+		 return list1;
 	  }
-//extracting fields	  
-	  String[] getFields(String str)
+	  String[] getFields(String str1)
 	  {
           int index=str1.indexOf("from");
           String substr=str1.substring(0,index);
-          String[] substr1=substr.split("[ ,]");
-          String s=" ";
-          for(int i=1; i<substr1.length;i++)
+          String substr1[]=substr.split("[ ,]");
+          int a=substr1.length;
+          String substr2[]=new String[a-1];
+          for(int i=0; i<a-1;i++)
           {
-        	  s=substr1[i];
+        	  substr2[i]=substr1[i+1];
           }
-		return substr1;
+          //substr1.length=(substr1.length)-1;
+          
+		return substr2;
 	  }
-//extracting base part of query	  
-	  void getBase() {
-		  System.out.println("Base part: "+str1.substring(0,index));
-	      
+	  String getBase(String str) {
+		  //System.out.println("Base part: "+str1.substring(0,index));
+		  //System.out.println("index"+index);
+	      return str1.substring(0,index-1);
 	  }
-//extracting last part of query	  
-	  void getLast() {
+	  String getLast(String str1) {
           lastpart=str1.substring(index+len,str1.length());
-		  System.out.println("Last past: "+str1.substring(index+len,str1.length()));
+		 // System.out.println("Last past: "+str1.substring(index+len,str1.length()));
+         return str1.substring(index+len,str1.length());
 	  }
-//extracting conditions	  
-	  void getConditions() {
+	  String getConditions(String str1) {
 		  /*String arr1[] = str1.split("and");
 		  String arr2[] =arr1[0].split("where");
 		  System.out.println("Condition 1 :" + arr1[1]);
 		  System.out.println("Condition 2 :" + arr2[1]);*/
+		  String mid=" ";
 		  if(lastpart!=null)
 		  {
 			  String last[]=lastpart.split(" ");
 			  int pev=0;
-			  String mid=" ";
+			  
 			  for(int i=0;i<last.length;i++)
 			  {
 				  if(last[i].equals("and")||last[i].equals("not")||last[i].equals("or")||last[i].equals("xor"))
@@ -96,12 +93,13 @@ public class QueryExtract {
 				{
 					mid=mid+last[j]+" ";
 				}
-			  System.out.println("Conditions: "+mid);
+			  //return mid;//System.out.println("Conditions: "+mid);
 		}
+		return mid;
+		  
 	  }
-//extracting logical operators	  
-	  void getOprators() {
-		  String arr3[]=str2.split(" ");
+	  String[] getOperators(String str1) {
+		  String arr3[]=str1.split(" ");
 			for(int i=0;i<arr3.length;i++)
 			{
 		//logical operators		
@@ -115,10 +113,10 @@ public class QueryExtract {
 					System.out.println("Orderby: "+arr3[i+2]);
 				}
 			}
+			return arr3;
 	  }
-//extracting aggregate  functions	  
-	  void getAggregate() {
-		  StringTokenizer st2= new StringTokenizer(str3);
+	  ArrayList<String> getAggregate(String str1) {
+		  StringTokenizer st2= new StringTokenizer(str1);
 			String s4=" ";
 			while(st2.hasMoreTokens())
 			{
@@ -128,7 +126,8 @@ public class QueryExtract {
 				  list4.add(s4);
 			  }
 			}
-			System.out.println("Aggregate functions: "+list4);
+			//System.out.println("Aggregate functions: "+list4);
+			return list4;
 	   }
  
 }

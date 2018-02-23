@@ -10,20 +10,23 @@ import java.text.SimpleDateFormat;
 public class Main {
 
 	public static void main(String[] args) {
-		String str1="select season,winner,id from ipl.csv where season > 2014 and city = 'Bangalore'";
-		 QueryExtract rd= new QueryExtract();
+		String str="select winner,season, id from ipl.csv where season > 2014";
+		  QueryExtract rd= new QueryExtract();
 		  rd.getToken();
-		  System.out.println("File nameL: "+rd.getFile(str1));
-		  String[] field=rd.getFields(str1);
-		  rd.getBase();
-		  rd.getLast();
-		  rd.getConditions();
-		  rd.getOprators();
-		  rd.getAggregate();
+		  ArrayList<String> list1=rd.getFile(str);
+		  System.out.println("File name: "+list1);
+		  String str1=rd.getBase(str);
+		  System.out.println("Base Part: "+str1);
+		  String str2=rd.getLast(str);
+		  System.out.println("Last Part: "+str2);
+		  String mid=rd.getConditions(str);
+		  System.out.println("Conditions: "+mid);
+		  String []opt=rd.getOperators(str);
+		  ArrayList<String> list2=rd.getAggregate(str);
+		  System.out.println("Aggregate Functions: ");
 		  String filename = "ipl.csv";
-		 // for(int i=0;i<token.length;i++)
-		   //  System.out.println("Tokenized: "+token);
- 		  for(int i=1;i<field.length;i++)
+		  String[] field=rd.getFields(str);
+ 		  for(int i=0;i<field.length;i++)
      		  System.out.println("Fields: "+field[i]);
 //creating an array of list	  
 		    ArrayList<String> list[] = new ArrayList[18];
@@ -58,7 +61,7 @@ public class Main {
 				    DataType data=new DataType();
 			    	data.getDataType(head,value);
 			        QueryParse qp= new QueryParse();
-			        qp.getData(head,list,field);
+			        qp.getData(head,list,field,mid);
 				    	
 
 				} catch (IOException e) {
@@ -85,4 +88,3 @@ public class Main {
 			}
 
 	}
-
